@@ -1,5 +1,6 @@
 # php-mettlertoledo
-A PHP Library for Communicating with Mettler Toledo based on
+A PHP Library for Communicating with Mettler Toledo balances and scales that use the Mettler Toledo Standard Interface Command Set (MT-SICS).
+This works is based on
 [repo atlantis-software/mt-sics](https://github.com/ricado-group/dotnet-mettlertoledo)
 and
 [repo ricado-group/dotnet-mettlertoledo](https://github.com/ricado-group/dotnet-mettlertoledo)
