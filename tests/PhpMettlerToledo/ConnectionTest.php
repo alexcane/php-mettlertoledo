@@ -1,6 +1,7 @@
 <?php
 
-use PhpMettlerToledo\Connection;
+namespace PhpMettlerToledo;
+
 use PhpMettlerToledo\Exception\ConnectionException;
 use PHPUnit\Framework\TestCase;
 
@@ -10,9 +11,10 @@ class ConnectionTest extends TestCase
     {
         $badHost = 'bad_host';
         $this->expectException(ConnectionException::class);
-        $this->expectExceptionMessage('Host invalid: '. $badHost);
+        $this->expectExceptionMessage('Host invalid: ' . $badHost);
         new Connection($badHost);
     }
+
     public function testGoodHost()
     {
         $conn = new Connection('172.20.2.80', 4305);
