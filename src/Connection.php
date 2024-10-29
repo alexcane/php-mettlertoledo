@@ -22,7 +22,7 @@ class Connection
         $this->_port = $port;
         try {
             $this->checkConnection();
-            if ($this->isConnected()) throw new ConnectionException('Scale not connected');
+            if (!$this->isConnected()) throw new ConnectionException('Scale not connected');
             $this->_state = self::STATE_READY;
         } catch (ConnectionException $e) {
             error_log($e->getMessage());
@@ -65,8 +65,8 @@ class Connection
 
     private function checkHost(): void
     {
-        if (!filter_var($this->_host, FILTER_VALIDATE_IP) && gethostbyname($this->_host) === $this->_host) {
-            throw new ConnectionException('Server '. $this->_host . ' is down or does not exist');
+        if (!filter_var($this->_host, FILTER_VALIDATE_IP)) {
+            throw new ConnectionException('Host invalid: '. $this->_host);
         }
     }
 
@@ -77,7 +77,7 @@ class Connection
         $socketConnection = fsockopen($this->_host, $this->_port, $errCode, $errMsg);
         if(!$socketConnection){
             $errMsg = mb_convert_encoding(rtrim($errMsg), 'UTF-8', 'ISO-8859-1') .' ('. $errCode .')';
-            throw new ConnectionException("Connection failed: $errMsg");
+            throw new ConnectionException("Connection error: $errMsg");
         }
         $this->_stream = $socketConnection;
     }
