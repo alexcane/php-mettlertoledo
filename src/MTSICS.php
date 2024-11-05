@@ -2,18 +2,25 @@
 
 namespace PhpMettlerToledo;
 
+use PhpMettlerToledo\Exception\ConnectionException;
 use PhpMettlerToledo\SICS\ExecuteCommand;
 
 class MTSICS extends Connection
 {
-    private ExecuteCommand $_exec;
-    private string $_error;
+    private ?ExecuteCommand $_exec = null;
+    private string $_error = '';
 
-    function __constructor(string $host, int $port)
+    function __construct(string $host, int $port)
     {
-        parent::__construct($host, $port);
-        if($this->getState() === Connection::STATE_ERROR) $this->_error = $this->_connectionError;
-        $this->_exec = new ExecuteCommand($this);
+        try {
+            parent::__construct($host, $port);
+        } catch (ConnectionException $e) {
+            $this->_error = $e->getMessage();
+            $this->setStateError();
+        }
+        if($this->getState() === Connection::STATE_READY){
+            $this->_exec = new ExecuteCommand($this);
+        }
     }
 
     /**
@@ -25,7 +32,7 @@ class MTSICS extends Connection
             return $this->_exec->readWeightAndStatus();
         } catch (\Exception $e){
             $this->_error = $e->getMessage();
-            return false;
+            return 0;
         }
     }
 
@@ -38,7 +45,7 @@ class MTSICS extends Connection
             return $this->_exec->readTareWeight();
         } catch (\Exception $e){
             $this->_error = $e->getMessage();
-            return false;
+            return 0;
         }
     }
 
@@ -52,7 +59,7 @@ class MTSICS extends Connection
             return $this->_exec->readNetWeight();
         } catch (\Exception $e){
             $this->_error = $e->getMessage();
-            return false;
+            return 0;
         }
     }
 
@@ -62,7 +69,8 @@ class MTSICS extends Connection
     public function zeroStable(): bool
     {
         try {
-            return $this->_exec->zeroStable();
+            $this->_exec->zeroStable();
+            return true;
         } catch (\Exception $e){
             $this->_error = $e->getMessage();
             return false;
@@ -75,7 +83,8 @@ class MTSICS extends Connection
     public function zeroImmediately(): bool
     {
         try {
-            return $this->_exec->zeroImmediately();
+            $this->_exec->zeroImmediately();
+            return true;
         } catch (\Exception $e){
             $this->_error = $e->getMessage();
             return false;
@@ -88,7 +97,8 @@ class MTSICS extends Connection
     public function tareStable(): bool
     {
         try {
-            return $this->_exec->tareStable();
+            $this->_exec->tareStable();
+            return true;
         } catch (\Exception $e){
             $this->_error = $e->getMessage();
             return false;
@@ -101,7 +111,8 @@ class MTSICS extends Connection
     public function tareImmediatly(): bool
     {
         try {
-            return $this->_exec->tareImmediatly();
+            $this->_exec->tareImmediatly();
+            return true;
         } catch (\Exception $e){
             $this->_error = $e->getMessage();
             return false;
@@ -114,7 +125,8 @@ class MTSICS extends Connection
     public function clearTare(): bool
     {
         try {
-            return $this->_exec->clearTare();
+            $this->_exec->clearTare();
+            return true;
         } catch (\Exception $e){
             $this->_error = $e->getMessage();
             return false;
@@ -130,7 +142,7 @@ class MTSICS extends Connection
             return $this->_exec->readFirmwareRevision();
         } catch (\Exception $e){
             $this->_error = $e->getMessage();
-            return false;
+            return '';
         }
     }
 
@@ -143,7 +155,7 @@ class MTSICS extends Connection
             return $this->_exec->readSerialNumber();
         } catch (\Exception $e){
             $this->_error = $e->getMessage();
-            return false;
+            return '';
         }
     }
 

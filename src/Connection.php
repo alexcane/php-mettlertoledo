@@ -16,19 +16,16 @@ class Connection
     private $_stream;
     protected string $_connectionError;
 
+    /**
+     * @throws ConnectionException
+     */
     public function __construct(string $host, int $port=4305)
     {
         $this->_host = $host;
         $this->_port = $port;
-        try {
-            $this->checkConnection();
-            if (!$this->isConnected()) throw new ConnectionException('Scale not connected');
-            $this->_state = self::STATE_READY;
-        } catch (ConnectionException $e) {
-            error_log($e->getMessage());
-            $this->_connectionError = $e->getMessage();
-            $this->_state = self::STATE_ERROR;
-        }
+        $this->checkConnection();
+        if (!$this->isConnected()) throw new ConnectionException('Scale not connected');
+        $this->_state = self::STATE_READY;
     }
     
     public function getState(): string
