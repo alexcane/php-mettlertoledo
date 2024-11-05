@@ -15,7 +15,7 @@ class CommandTest extends TestCase
         parent::__construct();
         $this->_MTSICS = new MTSICS(self::IP_ADDRESS, self::PORT);
     }
-    public function test()
+    public function testReadNetWeightIsFloat()
     {
         $result = $this->_MTSICS->readNetWeight();
         $this->assertIsFloat($result);

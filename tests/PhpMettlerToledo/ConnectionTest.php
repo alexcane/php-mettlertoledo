@@ -15,6 +15,9 @@ class ConnectionTest extends TestCase
         new Connection($badHost);
     }
 
+    /**
+     * @throws ConnectionException
+     */
     public function testGoodHost()
     {
         $conn = new Connection('172.20.2.80', 4305);
