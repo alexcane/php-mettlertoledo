@@ -4,6 +4,7 @@ namespace PhpMettlerToledo\SICS;
 
 class Commands
 {
+    const READ_COMMANDS_AVAILABLE = "I0";
     const READ_WEIGHT_AND_STATUS = "SIX1";
     const READ_TARE_WEIGHT = "TA";
     const READ_NET_WEIGHT = "SI";

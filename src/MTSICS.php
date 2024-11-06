@@ -24,6 +24,19 @@ class MTSICS extends Connection
     }
 
     /**
+     * @return array
+     */
+    public function readCommandsAvailable(): array
+    {
+        try {
+            return $this->_exec->readCommandsAvailable();
+        } catch (\Exception $e){
+            $this->_error = $e->getMessage();
+            return [$this->_error];
+        }
+    }
+
+    /**
      * @return float
      */
     public function readWeightAndStatus(): float
