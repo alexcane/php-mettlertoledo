@@ -1,32 +1,37 @@
-# php-mettlertoledo
-A PHP Library for Communicating with Mettler Toledo balances and scales that use the Mettler Toledo Standard Interface Command Set (MT-SICS).
+# PHPMettlerToledo
+A PHP Library for network communication with Mettler Toledo balances and scales that use the Mettler Toledo Standard Interface Command Set (MT-SICS).
 This works is based on
 [repo atlantis-software/mt-sics](https://github.com/ricado-group/dotnet-mettlertoledo)
 and
 [repo ricado-group/dotnet-mettlertoledo](https://github.com/ricado-group/dotnet-mettlertoledo)
 
-Currently in developement...
-Wait and see
+## Installation
 
-## Mettler Toledo RS232 Setup
+Run `composer require alexcane/php-mettlertoledo`
 
-  | BAUDRATE | BIT/PARITY | STOP BITS | HANDSHAKE | END OF LINE  | CHAR SET | CONTINUOUS MODE |
-  |----------|------------|-----------|-----------|--------------|----------|-----------------|
-  |     9600 | 8/NO       |         1 | NONE      | \<CR\>\<LF\> | ANSI/WIN | OFF             |
+## Example
+
+Take a look in Example.php
+```php
+use PhpMettlerToledo\MTSICS;
+
+$scale = new MTSICS('192.168.1.100', 4305);
+$weight = $scale->readNetWeight();
+```
 
 ## Documentation
 
-  | function | arguments | description |
-  |----------|-----------|-------------|
-  | get_commands | callback | Inquiry of all implemented MT-SICS commands. |
-  | get_mtsics_level | callback | Inquiry of MT-SICS level and MT-SICS versions. |
-  | get_balance_data | callback | Inquiry of balance data. |
-  | get_software_version | callback | Inquiry of balance SW version and type definition number. |
-  | get_serial_number | callback | Inquiry of serial number. |
-  | get_software_id | callback | Inquiry of SW-Identification number. |
-  | get_weight_stable | callback | Send the current stable net weight value. |
-  | get_weight | callback | Send the current net weight value, irrespective of balance stability. |
-  | zero_stable | callback | Zero the balance. |
-  | zero | callback | Zero the balance immediately regardless the stability of the balance. |
-  | reset | callback | Resets the balance to the condition found after switching on, but without a zero setting being performed. |
-  | close | | Close de connection. |
+| function                | returns value | description                                                                      |
+|-------------------------|---------------|----------------------------------------------------------------------------------|
+| readCommandsAvailable() | array         | Retrieves a list of available commands supported by the Mettler Toledo scale.    |
+| readWeightAndStatus()   | float         | Reads the current weight and status from the scale.                              |
+| readTareWeight()        | float         | Reads the tare weight from the scale.                                            |
+| readNetWeight()         | float         | Reads the net weight from the scale, irrespective of balance stability.          |
+| zeroStable()            | bool          | Zeros the scale using a stable zero method.                                      |
+| zeroImmediately()       | bool          | Zeros the balance immediately regardless the stability of the balance.           |
+| tareStable()            | bool          | Sets the tare on the scale using a stable method.                                |
+| tareImmediatly()        | bool          | Sets the tare on the scale immediately regardless the stability of the balance.  |
+| clearTare()             | bool          | Clears the current tare value on the scale.                                      |
+| readFirmwareRevision()  | string        | Returns the balance SW version and type definition number.                       |
+| readSerialNumber()      | string        | Returns the serial number of the scale.                                          |
+| getError()              | string        | Returns the last error message encountered.                                      |
