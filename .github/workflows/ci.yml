@@ -19,9 +19,9 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4' # Choisissez la version de PHP adaptée à votre projet
+          php-version: '7.4'
           extensions: mbstring, dom
-          coverage: xdebug # Optionnel, pour les rapports de couverture
+          coverage: xdebug
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest --no-interaction

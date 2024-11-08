@@ -16,7 +16,11 @@ Take a look in Example.php
 use PhpMettlerToledo\MTSICS;
 
 $scale = new MTSICS('192.168.1.100', 4305);
-$weight = $scale->readNetWeight();
+if($scale->isConnected()){
+    $weight = $scale->readNetWeight();
+} else {
+    $error = $scale->getError()
+}
 ```
 
 ## Documentation
