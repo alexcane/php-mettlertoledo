@@ -5,6 +5,11 @@ This works is based on
 and
 [repo ricado-group/dotnet-mettlertoledo](https://github.com/ricado-group/dotnet-mettlertoledo)
 
+## Requirements
+
+- PHP 8.1 or higher
+- ext-mbstring
+
 ## Installation
 
 Run `composer require alexcane/php-mettlertoledo`
@@ -39,3 +44,42 @@ if($scale->isConnected()){
 | readFirmwareRevision()  | string        | Returns the balance SW version and type definition number.                       |
 | readSerialNumber()      | string        | Returns the serial number of the scale.                                          |
 | getError()              | string        | Returns the last error message encountered.                                      |
+
+## Testing
+
+### Unit Testing (without hardware)
+
+As of v2.0.0, you can use dependency injection to test your code without requiring a physical scale:
+
+```php
+use PhpMettlerToledo\MTSICS;
+use PhpMettlerToledo\SICS\ExecuteCommandInterface;
+
+// Create a mock for testing
+$mockExecuteCommand = $this->createMock(ExecuteCommandInterface::class);
+$mockExecuteCommand->method('readNetWeight')->willReturn(123.45);
+
+// Inject the mock
+$scale = new MTSICS('192.168.1.100', 4305, $mockExecuteCommand);
+$weight = $scale->readNetWeight(); // Returns 123.45
+```
+
+### Integration Testing (with hardware)
+
+To run integration tests with a physical scale, update the IP address in `tests/PhpMettlerToledo/CommandTest.php` and run:
+
+```bash
+vendor/bin/phpunit tests/PhpMettlerToledo/CommandTest.php
+```
+
+Note: `CommandTest.php` is excluded from the default test suite as it requires physical hardware.
+
+## Upgrade Guide
+
+### From v1.x to v2.0
+
+**Breaking change**: Minimum PHP version is now 8.1.
+
+If you're still on PHP 7.4 or 8.0, you need to either:
+- Upgrade your PHP version to 8.1 or higher, OR
+- Stay on v1.x of this library (which will no longer receive updates)
