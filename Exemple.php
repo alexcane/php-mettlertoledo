@@ -11,7 +11,7 @@ try {
         $scale->zeroStable();
         $scale->zeroImmediately();
         $scale->tareStable();
-        $scale->tareImmediatly();
+        $scale->tareImmediately();
         $scale->clearTare();
         $firmware = $scale->readFirmwareRevision();
         $serial = $scale->readSerialNumber();

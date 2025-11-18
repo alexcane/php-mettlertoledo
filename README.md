@@ -34,7 +34,7 @@ if($scale->isConnected()){
 | zeroStable()            | bool          | Zeros the scale using a stable zero method.                                      |
 | zeroImmediately()       | bool          | Zeros the balance immediately regardless the stability of the balance.           |
 | tareStable()            | bool          | Sets the tare on the scale using a stable method.                                |
-| tareImmediatly()        | bool          | Sets the tare on the scale immediately regardless the stability of the balance.  |
+| tareImmediately()       | bool          | Sets the tare on the scale immediately regardless the stability of the balance.  |
 | clearTare()             | bool          | Clears the current tare value on the scale.                                      |
 | readFirmwareRevision()  | string        | Returns the balance SW version and type definition number.                       |
 | readSerialNumber()      | string        | Returns the serial number of the scale.                                          |

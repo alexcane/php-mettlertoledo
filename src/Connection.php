@@ -9,12 +9,11 @@ class Connection
     const STATE_INIT = 'init';
     const STATE_READY = 'ready';
     const STATE_ERROR = 'error';
-    const STATE_BUSY = 'busy';
     private string $_host;
     private int $_port;
     private string $_state = self::STATE_INIT;
-    private $_stream;
-    protected string $_connectionError;
+    /** @var resource|null */
+    private $_stream = null;
 
     /**
      * @throws ConnectionException
@@ -33,24 +32,25 @@ class Connection
         return $this->_state;
     }
 
-    public function setStateInit()
+    public function setStateInit(): void
     {
         $this->_state = self::STATE_INIT;
     }
-    public function setStateReady()
+
+    public function setStateReady(): void
     {
-        $this->_state = self::STATE_READY ;
-    }
-    public function setStateError()
-    {
-        $this->_state = self::STATE_ERROR ;
-    }
-    public function setStateBusy()
-    {
-        $this->_state = self::STATE_BUSY;
+        $this->_state = self::STATE_READY;
     }
 
-    public function getSream()
+    public function setStateError(): void
+    {
+        $this->_state = self::STATE_ERROR;
+    }
+
+    /**
+     * @return resource|null
+     */
+    public function getStream()
     {
         return $this->_stream;
     }
@@ -70,12 +70,18 @@ class Connection
     private function checkConnection(): void
     {
         $this->checkHost();
-        error_reporting(0);
-        $socketConnection = fsockopen($this->_host, $this->_port, $errCode, $errMsg);
+        $socketConnection = @fsockopen($this->_host, $this->_port, $errCode, $errMsg);
         if(!$socketConnection){
             $errMsg = mb_convert_encoding(rtrim($errMsg), 'UTF-8', 'ISO-8859-1') .' ('. $errCode .')';
             throw new ConnectionException("Connection error: $errMsg");
         }
         $this->_stream = $socketConnection;
+    }
+
+    public function __destruct()
+    {
+        if (is_resource($this->_stream)) {
+            fclose($this->_stream);
+        }
     }
 }

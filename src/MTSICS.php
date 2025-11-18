@@ -141,10 +141,10 @@ class MTSICS extends Connection
      * Sets the tare on the scale immediately regardless the stability of the balance.
      * @return bool True if the operation is successful, false if an error occurs.
      */
-    public function tareImmediatly(): bool
+    public function tareImmediately(): bool
     {
         try {
-            $this->_exec->tareImmediatly();
+            $this->_exec->tareImmediately();
             return true;
         } catch (\Exception $e){
             $this->_error = $e->getMessage();
