@@ -4,6 +4,7 @@ namespace PhpMettlerToledo;
 
 use PhpMettlerToledo\Exception\ConnectionException;
 use PhpMettlerToledo\SICS\ExecuteCommand;
+use PhpMettlerToledo\SICS\ExecuteCommandInterface;
 
 /**
  * Class MTSICS
@@ -12,7 +13,7 @@ use PhpMettlerToledo\SICS\ExecuteCommand;
  */
 class MTSICS extends Connection
 {
-    private ?ExecuteCommand $_exec = null;
+    private ?ExecuteCommandInterface $_exec = null;
     private string $_error = '';
 
     /**
@@ -21,8 +22,9 @@ class MTSICS extends Connection
      * Sets an error state if connection fails.
      * @param string $host The IP address of the Mettler Toledo scale.
      * @param int $port The port number used for the connection.
+     * @param ExecuteCommandInterface|null $executeCommand Optional ExecuteCommand instance for dependency injection (useful for testing)
      */
-    function __construct(string $host, int $port)
+    function __construct(string $host, int $port, ?ExecuteCommandInterface $executeCommand = null)
     {
         try {
             parent::__construct($host, $port);
@@ -30,7 +32,10 @@ class MTSICS extends Connection
             $this->_error = $e->getMessage();
             $this->setStateError();
         }
-        if($this->getState() === Connection::STATE_READY){
+
+        if ($executeCommand !== null) {
+            $this->_exec = $executeCommand;
+        } elseif ($this->getState() === Connection::STATE_READY) {
             $this->_exec = new ExecuteCommand($this);
         }
     }

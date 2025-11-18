@@ -58,10 +58,10 @@ class CommandTest extends TestCase
         $this->assertTrue($result);
     }
 
-    public function testTareImmediatlyIsTrue()
+    public function testTareImmediatelyIsTrue()
     {
         $MTSICS = new MTSICS(self::IP_ADDRESS, self::PORT);
-        $result = $MTSICS->tareImmediatly();
+        $result = $MTSICS->tareImmediately();
         $this->assertTrue($result);
     }
 

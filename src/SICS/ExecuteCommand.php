@@ -6,7 +6,7 @@ use PhpMettlerToledo\Connection;
 use PhpMettlerToledo\Exception\CommandException;
 use ReflectionClass;
 
-class ExecuteCommand
+class ExecuteCommand implements ExecuteCommandInterface
 {
     private Connection $_connection;
     private string $_commandListRegex;
