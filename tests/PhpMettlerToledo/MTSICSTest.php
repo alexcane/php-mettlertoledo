@@ -97,8 +97,7 @@ class MTSICSTest extends TestCase
     public function testZeroStableReturnsTrue()
     {
         $mock = $this->createMockExecuteCommand();
-        $mock->method('zeroStable')
-            ->willReturn(null);
+        $mock->expects($this->once())->method('zeroStable');
 
         $mtsics = new MTSICS('127.0.0.1', 4305, $mock);
         $result = $mtsics->zeroStable();
@@ -122,8 +121,7 @@ class MTSICSTest extends TestCase
     public function testZeroImmediatelyReturnsTrue()
     {
         $mock = $this->createMockExecuteCommand();
-        $mock->method('zeroImmediately')
-            ->willReturn(null);
+        $mock->expects($this->once())->method('zeroImmediately');
 
         $mtsics = new MTSICS('127.0.0.1', 4305, $mock);
         $result = $mtsics->zeroImmediately();
@@ -134,8 +132,7 @@ class MTSICSTest extends TestCase
     public function testTareStableReturnsTrue()
     {
         $mock = $this->createMockExecuteCommand();
-        $mock->method('tareStable')
-            ->willReturn(null);
+        $mock->expects($this->once())->method('tareStable');
 
         $mtsics = new MTSICS('127.0.0.1', 4305, $mock);
         $result = $mtsics->tareStable();
@@ -146,8 +143,7 @@ class MTSICSTest extends TestCase
     public function testTareImmediatelyReturnsTrue()
     {
         $mock = $this->createMockExecuteCommand();
-        $mock->method('tareImmediately')
-            ->willReturn(null);
+        $mock->expects($this->once())->method('tareImmediately');
 
         $mtsics = new MTSICS('127.0.0.1', 4305, $mock);
         $result = $mtsics->tareImmediately();
@@ -158,8 +154,7 @@ class MTSICSTest extends TestCase
     public function testClearTareReturnsTrue()
     {
         $mock = $this->createMockExecuteCommand();
-        $mock->method('clearTare')
-            ->willReturn(null);
+        $mock->expects($this->once())->method('clearTare');
 
         $mtsics = new MTSICS('127.0.0.1', 4305, $mock);
         $result = $mtsics->clearTare();

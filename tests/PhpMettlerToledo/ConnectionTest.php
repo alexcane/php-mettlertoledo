@@ -15,12 +15,10 @@ class ConnectionTest extends TestCase
         new Connection($badHost);
     }
 
-    /**
-     * @throws ConnectionException
-     */
-    public function testGoodHost()
+    public function testConnectionWithUnreachableHost()
     {
-        $conn = new Connection('172.20.2.80', 4305);
-        $this->assertTrue($conn->isConnected());
+        $this->expectException(ConnectionException::class);
+        // Using localhost with unlikely port to test connection failure
+        new Connection('127.0.0.1', 59999);
     }
 }
